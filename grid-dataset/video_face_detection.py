@@ -123,7 +123,7 @@ class VideoFaceDetector(object):
 
 def main():
     output_file = "./result.json"
-    videos = "/media/tuantran/UbuntuData/dataset/GRID/video"
+    videos = "/media/tuantran/raid-data/dataset/GRID/video"
     pre_data = None
     if path.exists(output_file):
         with open(output_file, 'r') as infile:

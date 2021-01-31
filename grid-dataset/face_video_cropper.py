@@ -50,8 +50,8 @@ class VideoCropper(object):
 
 def main():
     crop_result = "./result.json"
-    # VideoCropper(crop_result, "/media/tuantran/UbuntuData/dataset/GRID/mouth_videos/", "mouth", (64, 64)).run()
-    VideoCropper(crop_result, "/media/tuantran/UbuntuData/dataset/GRID/face_videos/", "face").run()
+    # VideoCropper(crop_result, "/media/tuantran/raid-data/dataset/GRID/mouth_videos/", "mouth", (64, 64)).run()
+    VideoCropper(crop_result, "/media/tuantran/raid-data/dataset/GRID/face_videos/", "face").run()
 
 if __name__ == "__main__":
     main()

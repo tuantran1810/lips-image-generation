@@ -50,8 +50,8 @@ class AudioExtractor:
 
 def main():
     ae = AudioExtractor(
-        "/media/tuantran/UbuntuData/dataset/GRID/video",
-        "/media/tuantran/UbuntuData/dataset/GRID/audio",
+        "/media/tuantran/raid-data/dataset/GRID/video",
+        "/media/tuantran/raid-data/dataset/GRID/audio",
         "mpg",
         "wav",
     )

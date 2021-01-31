@@ -74,7 +74,7 @@ class TrainingDataConverter:
         chunk_length = int(wave_length/nsegments)
         for i in range(0, nsegments):
             chunk = wave[(i*chunk_length):((i+1)*chunk_length)]
-            s = librosa.feature.melspectrogram(chunk, sr = fsampling, n_fft = n_fft, n_mels=n_mels, fmax= 16000)
+            s = librosa.feature.melspectrogram(chunk, sr = fsampling, n_fft = n_fft, n_mels = n_mels, fmax = 16000)
             yield librosa.amplitude_to_db(s)
 
     def run(self):
@@ -101,18 +101,18 @@ class TrainingDataConverter:
                 data = dict()
                 data['video'] = frames
                 data['audio'] = audio_logmel
-
+                return
                 with open(training_path, 'wb') as fd:
                     pickle.dump(data, fd)
                 print(training_path)
 
 def main():
     conv = TrainingDataConverter(
-        "/media/tuantran/UbuntuData/dataset/GRID/mouth_videos",
-        "/media/tuantran/UbuntuData/dataset/GRID/audio",
+        "/media/tuantran/raid-data/dataset/GRID/mouth_videos",
+        "/media/tuantran/raid-data/dataset/GRID/audio",
         "mp4",
         "wav",
-        "/media/tuantran/UbuntuData/dataset/GRID/mouth_images",
+        "/media/tuantran/raid-data/dataset/GRID/mouth_images",
     )
 
     conv.run()
