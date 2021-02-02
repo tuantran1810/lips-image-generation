@@ -29,9 +29,10 @@ def main():
 
     gen = Generator().cuda()
     print(gen)
-    with open("./grid-dataset/sample/s1/bbaf2n.pkl", 'rb') as fd:
+    with open("./../grid-dataset/sample/s1/bbaf2n.pkl", 'rb') as fd:
         data = pickle.load(fd)
         video = torch.tensor(data['video'])
+        print(video.shape)
         audio = torch.tensor(data['audio'].transpose(0,2,1))
 
         audio_arr = [

@@ -2,7 +2,6 @@ import torch
 from torch import nn
 import numpy as np
 from nets import Conv2dBlock
-import time
 
 class AudioEncoderGen(nn.Module):
     def __init__(self, in_channels = 1, out_channels = 256, init_inner_channels = 32, nlayers = 4):
@@ -72,7 +71,7 @@ if __name__ == "__main__":
         tmp = torch.flatten(tmp, start_dim = 0, end_dim = 1)
         return tmp
 
-    with open("./grid-dataset/sample/s1/bbaf2n.pkl", 'rb') as fd:
+    with open("./../grid-dataset/sample/s1/bbaf2n.pkl", 'rb') as fd:
         data = pickle.load(fd)
         audio = data['audio']
         audio = torch.tensor(np.transpose(audio, (0, 2, 1)))

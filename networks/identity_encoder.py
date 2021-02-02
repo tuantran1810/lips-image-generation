@@ -43,7 +43,7 @@ if __name__ == "__main__":
     print(v_enc)
     s_enc = StreamEncoder()
     print(s_enc)
-    with open("./grid-dataset/sample/s1/bbaf2n.pkl", 'rb') as fd:
+    with open("./../grid-dataset/sample/s1/bbaf2n.pkl", 'rb') as fd:
         data = pickle.load(fd)
         video = data['video']
         print(video.shape)

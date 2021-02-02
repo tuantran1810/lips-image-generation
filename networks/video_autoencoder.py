@@ -1,13 +1,14 @@
 import torch
 from torch import nn
-from nets import Conv3dBlock, Deconv3dBlock, Resnet3dBlock
+import sys, os
+from .nets import Conv3dBlock, Deconv3dBlock, Resnet3dBlock
 
 class Video3dEncoder(nn.Module):
     def __init__(self, in_channels = 3, out_channels = 64):
         super(Video3dEncoder, self).__init__()
         channels = 4
         layers = [
-            Conv3dBlock(in_channels = in_channels, out_channels = channels, kernel = 3, stride = 2, padding = 1)
+            Conv3dBlock(in_channels = in_channels, out_channels = channels, kernel = 1, stride = 1, padding = 0)
         ]
         while True:
             if channels * 2 > out_channels:
@@ -44,10 +45,8 @@ class Video3dDecoder(nn.Module):
             Deconv3dBlock(
                 in_channels = channels, 
                 out_channels = out_channels, 
-                kernel = 3, 
-                stride = 2, 
-                padding = 1, 
-                output_padding = 1
+                kernel = 1, 
+                stride = 1, 
             )
         )
         self.__layers = nn.Sequential(*layers)
@@ -93,6 +92,6 @@ class VideoAutoEncoder(nn.Module):
 
 if __name__ == "__main__":
     auto_enc = VideoAutoEncoder()
-    video = torch.ones(60, 3, 64, 64, 64)
+    video = torch.ones(16, 3, 16, 64, 64)
     output = auto_enc(video)
     print(output.shape)
