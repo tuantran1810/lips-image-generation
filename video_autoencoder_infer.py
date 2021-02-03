@@ -20,11 +20,6 @@ def __data_processing(fd):
     video = video.transpose(1, 0, 2, 3)
     video = torch.tensor(video).float()
     video = F.normalize(video, dim = 1)
-    video_show = video.numpy().transpose(1, 2, 3, 0)
-    video_show = video_show[1,:,:,:]
-    plt.figure()
-    plt.imshow(video_show)
-    plt.show()
     return video
 
 def main():
