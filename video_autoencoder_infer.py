@@ -1,6 +1,7 @@
 import os
 import random
 import torch
+import cv2
 from torch import nn
 from torch.nn import functional as F
 from torch.utils.data import DataLoader
@@ -19,7 +20,7 @@ def __data_processing(fd):
     video = video[i:i+16,:,:,:]
     video = video.transpose(1, 0, 2, 3)
     video = torch.tensor(video).float()
-    video = F.normalize(video, dim = 1)
+    video = video/255.0
     return video
 
 def main():
@@ -47,15 +48,16 @@ def main():
 
     inference = Inference(
         VideoAutoEncoder(),
-        "./model-video-autoenc/6.pt",
+        "./model-video-autoenc/final.pt",
         __get_input,
         __produce_output,
     )
 
     for out in inference.get_output():
-        image = out[0,:,:,:]
-        plt.figure()
-        plt.imshow(image)
+        fig, axis = plt.subplots(4, 4)
+        for i in range(4):
+            for j in range(4):
+                axis[i][j].imshow(cv2.cvtColor(out[i*4+j,:,:,:], cv2.COLOR_BGR2RGB))
         plt.show()
 
 if __name__ == "__main__":

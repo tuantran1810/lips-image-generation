@@ -17,7 +17,7 @@ def __data_processing(fd):
     video = video[i:i+16,:,:,:]
     video = video.transpose(1, 0, 2, 3)
     video = torch.tensor(video).float()
-    video = F.normalize(video, dim = 1)
+    video = video/255.0
     return video
 
 def main():
@@ -32,6 +32,11 @@ def main():
         'num_workers': 6,
     }
     dataloader = DataLoader(dataset, **params)
+    model_backup = "./model-video-autoenc/final.pt"
+
+    pre_model = VideoAutoEncoder()
+    if model_backup != None:
+        pre_model.load_state_dict(torch.load(model_backup))
     
     def __produce_data_train():
         for data in dataloader:
@@ -47,7 +52,7 @@ def main():
         return __produce_data_train, __produce_data_test
 
     def __inject_model():
-        return VideoAutoEncoder()
+        return pre_model
 
     def __inject_optim(model):
         return torch.optim.Adam(model.parameters(), lr = 0.001)
