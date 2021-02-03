@@ -1,3 +1,5 @@
+import sys, os
+sys.path.append(os.path.dirname(__file__))
 from torch.utils.data import Dataset
 
 class PathDataset(Dataset):

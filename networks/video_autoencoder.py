@@ -1,8 +1,8 @@
+import sys, os
+sys.path.append(os.path.dirname(__file__))
 import torch
 from torch import nn
-import sys, os
-from .nets import Conv3dBlock, Deconv3dBlock, Resnet3dBlock
-
+from nets import Conv3dBlock, Deconv3dBlock, Resnet3dBlock
 class Video3dEncoder(nn.Module):
     def __init__(self, in_channels = 3, out_channels = 64):
         super(Video3dEncoder, self).__init__()

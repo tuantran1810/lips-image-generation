@@ -1,3 +1,5 @@
+import sys, os
+sys.path.append(os.path.dirname(__file__))
 import torch
 from torch import nn
 from nets import Resnet3dBlock, Deconv3dBlock, Conv3dBlock
