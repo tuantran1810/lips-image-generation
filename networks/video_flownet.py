@@ -12,12 +12,15 @@ class FlownetArgs:
     fp16: bool = True
 
 class VideoFlownet(nn.Module):
-    def __init__(self, model):
+    def __init__(self, model, fast_mode=True):
         super(VideoFlownet, self).__init__()
         self.__model = model
+        self.__fast_mode = fast_mode
 
     def __infervideo(self, x):
+        '''
         #video shape is: (frames, channels, h, w)
+        '''
         n_frames = x.shape[0]
         batch_input = []
         for i in range(n_frames-1):
@@ -29,15 +32,42 @@ class VideoFlownet(nn.Module):
         batch_input = torch.stack(batch_input)
         return self.__model(batch_input)
 
-    def forward(self, x):
-        # batch video shape is: (batch, frames, channels, h, w)
+    def __forward(self, x):
         batch_size = x.shape[0]
         output = []
         for i in range(batch_size):
             output.append(self.__infervideo(x[i,:,:,:,:]))
         output = torch.stack(output)
-        print(output.shape)
         return output
+
+    def __forward_fast(self, x):
+        batch_size = x.shape[0]
+        n_frames = x.shape[1]
+        expected_output_shape = list(x.shape)
+        expected_output_shape[1] = n_frames - 1
+        expected_output_shape[2] = 2
+        batch_input = []
+        for i in range(batch_size):
+            for j in range(n_frames-1):
+                first_frame = x[i,j,:,:,:]
+                second_frame = x[i,j+1,:,:,:]
+                inp = torch.stack([first_frame, second_frame])
+                inp = inp.transpose(1, 0)
+                batch_input.append(inp)
+        batch_input = torch.stack(batch_input)
+        output = self.__model(batch_input)
+        output = torch.reshape(output, expected_output_shape)
+        return output
+
+    def forward(self, x):
+        '''
+        batch video shape is: (batch, frames, channels, h, w)
+        output: (batch, frames, channels, h, w)
+        '''
+        if self.__fast_mode:
+            return self.__forward_fast(x)
+        return self.__forward(x)
+
 
 def main():
     import pickle

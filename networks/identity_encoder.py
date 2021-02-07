@@ -39,6 +39,38 @@ class StreamEncoder(nn.Module):
     def forward(self, x):
         return self.layers(x).squeeze(2)
 
+class FlowEncoder(nn.Module):
+    def __init__(self, in_channels = 2, out_channels = 128, init_inner_channels = 32, nlayers = 3):
+        super(FlowEncoder, self).__init__()
+        channels = init_inner_channels
+        layers = [Conv3dBlock(in_channels, channels, kernel = (3, 7, 7), stride = (2, 4, 4), padding = (1, 3, 3))]
+        for _ in range(nlayers - 1):
+            cout = channels * 2
+            conv_block = Conv3dBlock(
+                channels, 
+                cout if cout < out_channels else out_channels,
+                kernel = (3, 7, 7), 
+                stride = (2, 4, 4), 
+                padding = (1, 3, 3),
+            )
+            if cout < out_channels:
+                channels = cout
+            layers.append(conv_block)
+        self.layers = nn.Sequential(*layers)
+        self.fc = nn.Linear(out_channels * 2, out_channels)
+        self.__out_channels = out_channels
+
+    def forward(self, x):
+        '''
+        batch video shape is: (batch, frames, channels, h, w)
+        '''
+        batch_size = x.shape[0]
+        x = x.transpose(1, 2)
+        x = self.layers(x)
+        x = x.reshape(batch_size, -1)
+        x = self.fc(x)
+        return x
+
 if __name__ == "__main__":
     import pickle
     v_enc = IdentityEncoder()

@@ -61,6 +61,32 @@ class AudioEncoderDis(nn.Module):
         x = x.reshape(batch_size, -1)
         return self.fc(x).reshape(batch_size, self.__out_channels, -1)
 
+class AudioEncoderCorr(nn.Module):
+    def __init__(self, in_channels = 256, nlayers = 4):
+        super(AudioEncoderCorr, self).__init__()
+        layers = [Conv2dBlock(in_channels, in_channels, kernel = (3, 1), stride = (2, 1), padding = (1, 0))]
+        for _ in range(nlayers - 1):
+            conv_block = Conv2dBlock(
+                in_channels, 
+                in_channels,
+                kernel = 3, 
+                stride = 2, 
+                padding = 1,
+            )
+            layers.append(conv_block)
+        self.layers = nn.Sequential(*layers)
+        self.fc = nn.Linear(in_channels, 128)
+
+    def forward(self, x):
+        """
+        x: (batch, channels, t, values)
+        output: (batch, vector)
+        """
+        batch_size = x.shape[0]
+        x = self.layers(x)
+        x = x.reshape(batch_size, -1)
+        return self.fc(x).reshape(batch_size, -1)
+
 if __name__ == "__main__":
     import pickle
     a_enc = AudioEncoderGen()
