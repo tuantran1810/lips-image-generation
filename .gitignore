@@ -4,16 +4,16 @@ __pycache__/
 *$py.class
 
 # C extensions
-*.so
+# *.so
 
 # Distribution / packaging
 .Python
-build/
+# build/
 develop-eggs/
-dist/
+# dist/
 downloads/
 eggs/
-.eggs/
+# .eggs/
 lib/
 lib64/
 parts/
@@ -22,9 +22,9 @@ var/
 wheels/
 pip-wheel-metadata/
 share/python-wheels/
-*.egg-info/
+# *.egg-info/
 .installed.cfg
-*.egg
+# *.egg
 MANIFEST
 
 # PyInstaller
@@ -127,3 +127,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+FlowNet2_checkpoint.pth.tar

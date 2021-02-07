@@ -1,0 +1,3 @@
+# ninja log v5
+0	13397	1611846032820685868	/home/tuantran/Source/flownet2-pytorch/networks/correlation_package/build/temp.linux-x86_64-3.7/correlation_cuda.o	c908e7097332d1af
+1	18100	1611846037520397733	/home/tuantran/Source/flownet2-pytorch/networks/correlation_package/build/temp.linux-x86_64-3.7/correlation_cuda_kernel.o	3981c60a153230e5
